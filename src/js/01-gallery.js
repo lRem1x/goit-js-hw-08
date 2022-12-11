@@ -1,3 +1,4 @@
+// Add imports above this line
 import { galleryItems } from './gallery-items';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
@@ -11,32 +12,14 @@ galleryRef.insertAdjacentHTML('beforeend', gallerySet);
 galleryRef.addEventListener('click', onAddItemsClick);
 
 function createGalleryset(items =[]) {
-    return items.map((item) => `<div class="gallery__item">
-  <a class="gallery__link" href="${item.original}">
-    <img
-      class="gallery__image"
-      src="${item.preview}"
-      data-source="${item.original}"
-      alt="${item.description}"
-    />
-  </a>
-</div>`).join("");
+    return items.map((item) => 
+    `<a class="gallery__item" href="${item.original}">
+  <img class="gallery__image" src="${item.preview}" alt="${item.description}" />
+</a>`).join("");
 }
 
-
-function onAddItemsClick(e) {
-  e.preventDefault();
-  if (!e.target.classList.contains('gallery__image')) return;
-    const itemSrc = e.target.dataset.source;
-  const modalImageBox = basicLightbox.create(`
-    // <img src="${itemSrc}" width="800" height="600">`,
-    {
-      onShow: () => document.addEventListener('keydown', onEscapeClick),
-      onClose: () => document.removeEventListener('keydown', onEscapeClick),
-    }
-  );
-  const onEscapeClick = (e) => {
-  if (e.key === 'Escape') modalImageBox.close();
-  };
-  modalImageBox.show();
+function onAddItemsClick(evt) {
+    evt.preventDefault();
 }
+
+let gallery = new SimpleLightbox('.gallery a', {captionsData: 'alt', captionDelay: 250,});
